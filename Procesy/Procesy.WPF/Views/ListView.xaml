@@ -1,0 +1,94 @@
+﻿<views:MvxWpfView
+    xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf" x:Class="Procesy.WPF.Views.ListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Procesy.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="700"  >
+    <views:MvxWpfView.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </views:MvxWpfView.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="12,0,12,0" Grid.Column="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="70" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Button Command="{Binding ReloadCommand}"  Width="60"   Content="Refresh" Margin="1,0,39,18" Grid.RowSpan="2"/>
+                <TextBlock Grid.Column="1" Text="Referesh rate"/>
+                <TextBox Grid.Column="1" Text="{Binding ReloadInterval , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="75,0,0,18" Grid.RowSpan="2"/>
+                <TextBlock Grid.Column="2" Margin="5,0,45,18" Grid.RowSpan="2" Grid.ColumnSpan="2"><Run Text="se"/><Run Language="pl-pl" Text="cs"/></TextBlock>
+                <Button Grid.Column="3" Command="{Binding BlockReloadCommand}"   Content="Stop refresh" Grid.ColumnSpan="2" Margin="48,0,-5,18" Grid.RowSpan="2" />
+
+                <TextBlock Grid.Row="1">Wyszukaj:</TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1"  Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="123" />
+                    <ColumnDefinition Width="27"/>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="50" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Name" x:Name="ProcessNameLabel"  Grid.Column="0" Grid.Row="0" Margin="34,5,0,5" Grid.ColumnSpan="3" HorizontalAlignment="Left" Width="120"></TextBlock>
+                <Button Grid.Row="0" Command="{Binding SortByNameCommand}" Content="{Binding NameDirection}" Margin="1,0,95,0"/>
+                <TextBlock Text="Memory" x:Name="ProcessMemoryLabel"  Grid.Column="2" Grid.Row="0" Margin="34,5,26,5" Grid.ColumnSpan="2"/>
+                <Button Grid.Column="2" Margin="0,0,123,0" Command="{Binding SortByMemoryCommand}" Content="{Binding MemoryDirection}"></Button>
+
+            </Grid>
+            <ListBox ItemsSource="{Binding ProcessList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  SelectedItem="{Binding ChosenProcess,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="430">
+                <ListBox.Resources>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="IsSelected" Value="{Binding Checked, Mode=TwoWay}" />
+                    </Style>
+                </ListBox.Resources>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding ProcessName}" x:Name="ProcessNameLabel"  Grid.Column="0" Grid.Row="0" Margin="15 5"></TextBlock>
+                            <TextBlock Text="{Binding ProcessMemory}" x:Name="ProcessMemoryLabel"  Grid.Column="1" Grid.Row="0" Margin="15 5"></TextBlock>
+
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="0 60">
+            <Border Visibility="{Binding ShowDetails, Converter={StaticResource BoolToVis}}">
+                <local:DetailView DataContext="{Binding DetailModel}" Height="355" ></local:DetailView>
+            </Border>
+        </StackPanel>
+    </Grid>
+</views:MvxWpfView>

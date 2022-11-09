@@ -1,0 +1,78 @@
+﻿<views:MvxWpfView
+    xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf" x:Class="Procesy.WPF.Views.DetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:Procesy.WPF.Views"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="300">
+    <Grid>
+        <StackPanel Margin="12,20,12,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="70" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0"  Text="Name"></TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ProcessName}"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Id"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ProcessId}"></TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Priority" Margin="0 10"></TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ProcessPriority, Mode=TwoWay}"  Margin="0 10"></TextBlock>
+                <StackPanel Grid.Row="2" Grid.Column="2">
+                    <Button x:Name="RaisePriority" Command ="{Binding RaisePriorityCommand}" Height="15" Width="20">^</Button>
+                    <Button x:Name="LowerPriority" Command ="{Binding ReducePriorityCommand}" Height="15" Width="20">v</Button>
+
+                </StackPanel>
+                <TextBlock Grid.Row="3" Grid.Column="0"  Text="Memory"></TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ProcessMemory}"></TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="0"  Text="Start Time"></TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding StartTime}"></TextBlock>
+            </Grid>
+            <TextBlock  Text="Threads:"></TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="70" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Id" x:Name="ThreadId"  Grid.Column="0" Grid.Row="0" Margin="15 5"></TextBlock>
+                <TextBlock Text="State" x:Name="ThreadState"  Grid.Column="1" Grid.Row="0" Margin="15 5"></TextBlock>
+                <TextBlock Text="Priority" x:Name="ThreadPriority"  Grid.Column="2" Grid.Row="0" Margin="15 5"></TextBlock>
+            </Grid>
+            <ListBox ItemsSource="{Binding ThreadsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="150">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding Id}" x:Name="ThreadId"  Grid.Column="0" Grid.Row="0" Margin="15 5"></TextBlock>
+                            <TextBlock Text="{Binding ThreadState}" x:Name="ThreadState"  Grid.Column="1" Grid.Row="0" Margin="15 5"></TextBlock>
+                            <TextBlock Text="{Binding Priority}" x:Name="ThreadPriority"  Grid.Column="2" Grid.Row="0" Margin="15 5"></TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button x:Name="Kill" Command ="{Binding KillCommand}" Height="28" Background="OrangeRed" FontWeight="Bold" Foreground="Azure">KILL !!!</Button>
+        </StackPanel>
+    </Grid>
+</views:MvxWpfView>
